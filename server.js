@@ -3,6 +3,10 @@ var express = require("express");
 var path = require("path");
 var server = express();
 
+var generateImage = require('./generate_imag.js');
+
+console.log(generateImage);
+
 var PORT = 3045;
 
 server.get('/wms', function (request, response) {
@@ -11,7 +15,7 @@ server.get('/wms', function (request, response) {
     if(params.SERVICE ==="WMS" && params.REQUEST === 'GetCapabilities') {
         response.sendFile(path.join(__dirname , 'nase_vrstvy.xml'))
      }   else if (params.service === "wms" && params.request === 'GetMap') {
-            console.log('idem robit get map')
+        generateImage(params, response.sendFile.bind(response))
     }   else {
     response.send('nepodporovana metoda')
 }
