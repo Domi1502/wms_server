@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var server = express();
 
-var generateImage = require('./generate_imag.js');
+var generateImage = require('./generate_img.js');
 
 console.log(generateImage);
 
