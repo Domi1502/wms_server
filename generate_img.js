@@ -20,14 +20,14 @@ var proj = "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972
 var addBudovy=arg.LAYERS.includes('budovy');
 var addCesty=arg.LAYERS.includes('cesty');
 
-var style_Budovy='<Style name="styl_pre_vrstvu_budovy">' + // style for layer Budovy
+var style_budovy='<Style name="style_budovy">' + // style for layer Budovy
 '<Rule>' +
     '<LineSymbolizer stroke="black" stroke-width="0.1" />' + // style for lines
     '<PolygonSymbolizer fill="#f2cfaf"  />' + // style for polygons
 '</Rule>' +
 '</Style>' 
 
-var style_Cesty='<Style name="styl_pre_vrstvu_cesty">' + // style for layer "style_cesty"
+var style_cesty='<Style name="style_cesty">' + // style for layer "style_cesty"
 '<Rule>' +
     '<LineSymbolizer stroke="#d7c8b9" stroke-width="0.8" />' + // style for lines
 '</Rule>' +
@@ -35,18 +35,18 @@ var style_Cesty='<Style name="styl_pre_vrstvu_cesty">' + // style for layer "sty
 
 // schema of the rendered map
 var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
-                (addBudovy ? style_Budovy : '') +
-                (addCesty ? style_Cesty : '') +
+                (addBudovy ? style_budovy : '') +
+                (addCesty ? style_cesty : '') +
 
-                '<Layer name="Cesty" srs="'+proj+'">' + // layer "cesty" with spatial reference system
-                    '<StyleName>styl_vrstvy_cesty</StyleName>' + // binding of a style used for this layer => "style_cesty"
+                '<Layer name="cesty" srs="'+proj+'">' + // layer "cesty" with spatial reference system
+                    '<StyleName>style_cesty</StyleName>' + // binding of a style used for this layer => "style_cesty"
                     '<Datasource>' + // definition of a data source
                         '<Parameter name="file">' + path.join( __dirname, 'data/cesty.shp' ) +'</Parameter>' + // path to the data file
                         '<Parameter name="type">shape</Parameter>' + // file type
                     '</Datasource>' +
                 '</Layer>' +
                 '<Layer name="budovy" srs="'+proj+'">' + // same as above
-                    '<StyleName>styl_vrstvy_budovy</StyleName>' +
+                    '<StyleName>style_budovy</StyleName>' +
                     '<Datasource>' +
                         '<Parameter name="file">' + path.join( __dirname, 'data/budovy.shp' ) +'</Parameter>' +
                         '<Parameter name="type">shape</Parameter>' +

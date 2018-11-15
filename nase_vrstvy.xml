@@ -25,21 +25,9 @@
       <GetMap>
         <Format>image/png</Format>
         <DCPType>
-          <HTTP><Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://zbgisws.skgeodesy.sk/zbgis_antropogenne_prvky_wms_featureinfo/service.svc/get?"/></Get></HTTP>
+          <HTTP><Get><OnlineResource xmlns:xlink="http://localhost:3045/wms" xlink:type="simple" xlink:href="http://localhost:3045/wms?"/></Get></HTTP>
         </DCPType>
       </GetMap>
-      <GetFeatureInfo>
-        <Format>application/vnd.esri.wms_raw_xml</Format>
-        <Format>application/vnd.esri.wms_featureinfo_xml</Format>
-        <Format>application/vnd.ogc.wms_xml</Format>
-        <Format>application/geojson</Format>
-        <Format>text/xml</Format>
-        <Format>text/html</Format>
-        <Format>text/plain</Format>
-        <DCPType>
-          <HTTP><Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://zbgisws.skgeodesy.sk/zbgis_antropogenne_prvky_wms_featureinfo/service.svc/get?"/></Get></HTTP>
-        </DCPType>
-      </GetFeatureInfo>
       <esri_wms:GetStyles>
         <Format>application/vnd.ogc.sld+xml</Format>
         <DCPType>
@@ -48,7 +36,7 @@
       </esri_wms:GetStyles>
     </Request>
     <Layer queryable="1">
-    <Name>Budovy</Name>
+    <Name>budovy</Name>
 <CRS>EPSG:5514</CRS>
  <!-- alias 5514 -->
 <CRS>EPSG:102067</CRS>
@@ -56,7 +44,7 @@
 <BoundingBox CRS="EPSG:5514" minx="-507668.121" miny="-1218115.828" maxx="-511572.982" maxy="-1222268.772"/>
       </Layer>
       <Layer queryable="1">
-          <Name>Cesty</Name>
+          <Name>cesty</Name>
         <Abstract><![CDATA[]]></Abstract>
 <CRS>EPSG:5514</CRS>
  <!-- alias 5514 -->
