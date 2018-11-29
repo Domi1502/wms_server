@@ -15,28 +15,167 @@ function generateImage(arg, sendFile) {
 var map = new mapnik.Map(width, height);
 // create new map object with defined width and height
 
-var proj = "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=589,76,480,0,0,0,0 +units=m +no_defs";
-
 var addBudovy=arg.LAYERS.includes('budovy');
 var addCesty=arg.LAYERS.includes('cesty');
+var addTur_chodniky=arg.LAYERS.includes('Tur_chodniky');
+var addKanalizacia=arg.LAYERS.includes('kanalizacia');
+var addParkovisko=arg.LAYERS.includes('parkovisko');
+
+
+var proj = "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=589,76,480,0,0,0,0 +units=m +no_defs";
 
 var style_budovy='<Style name="style_budovy">' + // style for layer Budovy
 '<Rule>' +
-    '<LineSymbolizer stroke="black" stroke-width="0.1" />' + // style for lines
-    '<PolygonSymbolizer fill="#f2cfaf"  />' + // style for polygons
+    '<MaxScaleDenominator>32000</MaxScaleDenominator>'+    
+    '<MinScaleDenominator>2001</MinScaleDenominator>'+
+    '<LineSymbolizer stroke="#08090c" stroke-width="0.1" />' + // style for lines
+    '<PolygonSymbolizer fill="#f48942" fill-opacity="0.5" />' + // style for polygons
 '</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>2000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>100</MinScaleDenominator>'+   
+       '<LineSymbolizer stroke="#08090c" stroke-width="0.1" />' + // style for lines
+       '<PolygonSymbolizer fill="#e6e8ef" fill-width="0.2" />' + // style for polygons
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>1000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>100</MinScaleDenominator>'+  
+'<LineSymbolizer stroke="#08090c" stroke-width="0.1" />' + // style for lines
+'<PolygonSymbolizer fill="#e6e8ef" fill-width="0.2" />' + // style for polygons 
+'</Rule>' +
+
 '</Style>' 
 
 var style_cesty='<Style name="style_cesty">' + // style for layer "style_cesty"
 '<Rule>' +
-    '<LineSymbolizer stroke="#d7c8b9" stroke-width="0.8" />' + // style for lines
+'<MaxScaleDenominator>32000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>16001</MinScaleDenominator>'+
+    '<LineSymbolizer stroke="#f4d742" stroke-width="0.8" />' + // style for lines
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>16000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>10000</MinScaleDenominator>'+
+    '<LineSymbolizer stroke="#f4d742" stroke-width="1.5" />' + // style for lines
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>9999</MaxScaleDenominator>'+    
+'<MinScaleDenominator>8001</MinScaleDenominator>'+
+    '<LineSymbolizer stroke="#f4d742" stroke-width="1.4" />' + // style for lines
+   '</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>8000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>5000</MinScaleDenominator>'+
+    '<LineSymbolizer stroke="#f4d742" stroke-width="1.2" stroke-opacity="0.7" />' + // style for lines
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>4999</MaxScaleDenominator>'+
+'<MinScaleDenominator>1000</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#f4d742" stroke-width="5" stroke-opacity="0.6" />' + // style for lines
+'</Rule>' +
+'<Rule>' +
+'<MaxScaleDenominator>999</MaxScaleDenominator>'+
+'<MinScaleDenominator>200</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#f4d742" stroke-width="8"  stroke-opacity="0.5"/>' + // style for lines
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>199</MaxScaleDenominator>'+
+'<MinScaleDenominator>10</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#f4d742" stroke-width="15" stroke-opacity="0.5"/>' + // style for lines
 '</Rule>' +
 '</Style>' 
+
+var style_Tur_chodniky='<Style name="style_Tur_chodniky">' + // style for layer "style_Tur_chodniky"
+'<Rule>' +
+'<MaxScaleDenominator>16000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>10001</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#ea3323" stroke-width="0.4" stroke-dasharray="5 2" />' +
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>10000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>8001</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#ea3323" stroke-width="0.4" stroke-dasharray="5 2" />' +
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>8000</MaxScaleDenominator>'+    
+'<MinScaleDenominator>5000</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#ea3323" stroke-dasharray="5 2" />' +
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>4999</MaxScaleDenominator>'+
+'<MinScaleDenominator>200</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#ea3323" stroke-dasharray="5 2" />' +
+'<PointSymbolizer spacing="100" file="./turista.jpg" transform="scale(0.09)"/>'+
+'</Rule>' +
+'<Rule>' +
+'<MaxScaleDenominator>199</MaxScaleDenominator>'+
+'<MinScaleDenominator>10</MinScaleDenominator>'+
+'<LineSymbolizer stroke="#ea3323" stroke-dasharray="5 2" />' +
+'</Rule>' +
+'</Style>' 
+
+var style_kanalizacia='<Style name="style_kanalizacia">' + // style for layer "style_kostol"
+'<Rule>' +
+'<MaxScaleDenominator>3000</MaxScaleDenominator>' +
+'<MinScaleDenominator>2001</MinScaleDenominator>'+
+'<PointSymbolizer file= "./kanalizacia.png" transform="scale(0.03)" />' +
+'</Rule>' +     
+
+'<Rule>' +
+    '<MaxScaleDenominator>2000</MaxScaleDenominator>' +
+    '<MinScaleDenominator>500</MinScaleDenominator>'+
+    '<PointSymbolizer file= "./kanalizacia.png" transform="scale(0.022)" />' +
+  '</Rule>' +
+'<Rule>' +
+    '<MaxScaleDenominator>499</MaxScaleDenominator>' +
+    '<MinScaleDenominator>200</MinScaleDenominator>'+
+    '<PointSymbolizer file= "./kanalizacia.png" transform="scale(0.018)" />' +
+   '</Rule>' +
+'<Rule>' +
+    '<MaxScaleDenominator>199</MaxScaleDenominator>' +
+    '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+    '<PointSymbolizer file= "./kanalizacia.png" transform="scale(0.015)" />' +
+ '</Rule>' +
+'</Style>' 
+
+var style_parkovisko='<Style name="style_parkovisko">' + // style for layer "style_odpad"
+'<Rule>' +
+    '<MaxScaleDenominator>5000</MaxScaleDenominator>' +
+    '<MinScaleDenominator>2000</MinScaleDenominator>'+
+    '<PolygonSymbolizer fill="#1f4b96"  stroke-opacity="0.6" />' + // style for polygons
+    '<LineSymbolizer stroke="black" stroke-width="0.03" />' + // style for lines
+'</Rule>' +  
+'<Rule>' +
+'<MaxScaleDenominator>1999</MaxScaleDenominator>'+
+'<MinScaleDenominator>100</MinScaleDenominator>'+
+'<PointSymbolizer spacing="80" file="./parkovanie.jpg" transform="scale(0.1)" stroke-opacity="0.6"/>'+
+'</Rule>' +
+
+'<Rule>' +
+'<MaxScaleDenominator>99</MaxScaleDenominator>'+
+'<MinScaleDenominator>50</MinScaleDenominator>'+
+'<PointSymbolizer spacing="80" file="./parkovanie.jpg" transform="scale(0.09)" stroke-opacity="0.6"/>'+
+'</Rule>' +
+ '</Style>' 
+
 
 // schema of the rendered map
 var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
                 (addBudovy ? style_budovy : '') +
                 (addCesty ? style_cesty : '') +
+                (addTur_chodniky ? style_Tur_chodniky : '') +
+                (addKanalizacia ? style_kanalizacia : '') +
+                (addParkovisko ? style_parkovisko : '') +
+                
 
                 '<Layer name="cesty" srs="'+proj+'">' + // layer "cesty" with spatial reference system
                     '<StyleName>style_cesty</StyleName>' + // binding of a style used for this layer => "style_cesty"
@@ -45,6 +184,7 @@ var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we defin
                         '<Parameter name="type">shape</Parameter>' + // file type
                     '</Datasource>' +
                 '</Layer>' +
+
                 '<Layer name="budovy" srs="'+proj+'">' + // same as above
                     '<StyleName>style_budovy</StyleName>' +
                     '<Datasource>' +
@@ -52,6 +192,31 @@ var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we defin
                         '<Parameter name="type">shape</Parameter>' +
                     '</Datasource>' +
                 '</Layer>' +
+
+                '<Layer name="Tur_chodniky" srs="'+proj+'">' + // layer "cesty" with spatial reference system
+                '<StyleName>style_Tur_chodniky</StyleName>' + // binding of a style used for this layer => "style_cesty"
+                '<Datasource>' + // definition of a data source
+                    '<Parameter name="file">' + path.join( __dirname, 'data/Tur_chodniky.shp' ) +'</Parameter>' + // path to the data file
+                    '<Parameter name="type">shape</Parameter>' + // file type
+                '</Datasource>' +
+            '</Layer>' +
+
+            '<Layer name="kanalizacia" srs="'+proj+'">' + // same as above
+            '<StyleName>style_kanalizacia</StyleName>' +
+            '<Datasource>' +
+                '<Parameter name="file">' + path.join( __dirname, 'data/kanalizacia.shp' ) +'</Parameter>' +
+                '<Parameter name="type">shape</Parameter>' +
+             '</Datasource>' +
+            '</Layer>' + 
+
+            '<Layer name="parkovisko" srs="'+proj+'">' + // layer "cesty" with spatial reference system
+            '<StyleName>style_parkovisko</StyleName>' + // binding of a style used for this layer => "style_cesty"
+            '<Datasource>' + // definition of a data source
+                '<Parameter name="file">' + path.join( __dirname, 'data/parkovisko.shp' ) +'</Parameter>' + // path to the data file
+                '<Parameter name="type">shape</Parameter>' + // file type
+            '</Datasource>' +
+        '</Layer>' +
+
             '</Map>';
 
 // now we have a mapnik xml in variable schema that defines layers, data sources and styles of the layers
