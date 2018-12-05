@@ -1,43 +1,55 @@
+  <!-- ak sa opakujú prvky komentáre sú písané 1-krát -->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <WMS_Capabilities version="1.3.0"
   xmlns="http://www.opengis.net/wms"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  <!-- umožňuje, aby prázdny prvok bol považovaný za platný, ak ho XSD inak nepovolil -->
+
   xmlns:esri_wms="http://www.esri.com/wms"
-  xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd http://www.esri.com/wms https://zbgisws.skgeodesy.sk/zbgis_antropogenne_prvky_wms_featureinfo/service.svc/get?version=1.3.0%26service=WMS%26request=GetSchemaExtension">
-  <Service>
-    <Name><![CDATA[WMS služba]]></Name>
-     <Title><![CDATA[WMS]]></Title>
-    <Abstract><![CDATA[]]></Abstract>
-    <KeywordList><Keyword><![CDATA[WMS, Kocovce]]></Keyword></KeywordList>
-    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://localhost:3045/wms?"/>
+  xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd http://www.esri.com/wms https://zbgisws.skgeodesy.sk/zbgis_antropogenne_prvky_wms_featureinfo/service.svc/get?version=1.3.0%26service=WMS%26request=GetSchemaExtension"> 
+  <!-- syntaktický analyzátor XML vie kde získa schému, aby overil konfiguráciu -->
+  
+  <Service> <!-- Obsahuje metadáta služby, ako je názov služby, kľúčové slová a kontaktné informácie pre organizáciu prevádzkujúcu server. -->
+    <Name><![CDATA[WMS služba]]></Name> <!-- názov  -->
+     <Title><![CDATA[WMS]]></Title> <!-- nadpis -->
+    <Abstract><![CDATA[]]></Abstract> <!-- abstrakt -->
+    <KeywordList><Keyword><![CDATA[WMS, Kocovce]]></Keyword></KeywordList>  <!-- kľúčové slová -->
+    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://localhost:3045/wms?"/>  <!-- xlink: href definuje odkaz na zdroj (xml s def. vrstvami) ako referenčné IRI,  -->
     <AccessConstraints><![CDATA[© Úrad geodézie, kartografie a katastra SR]]></AccessConstraints>
-    <MaxWidth>4096</MaxWidth>
-    <MaxHeight>4096</MaxHeight>
+    <MaxWidth>4096</MaxWidth> <!-- maximálna šírka zobrazených vrstiev v px-->
+    <MaxHeight>4096</MaxHeight> <!-- maximálna výška zobrazených vrstiev v px -->
   </Service>
-  <Capability>
-    <Request>
-      <GetCapabilities>
-        <Format>application/vnd.ogc.wms_xml</Format>
-        <Format>text/xml</Format>
-        <DCPType>
+  <Capability> <!--  vlastnosti generovaného obrázka/mapy -->
+    <Request> <!-- Popisuje operácie, ktoré služba WMS poskytuje, parametre a výstupné formáty pre každú operáciu -->
+      <GetCapabilities><!-- Načíta metadáta o službe vrátane podporovaných operácií a parametrov a zoznam dostupných vrstiev -->
+        <Format>application/vnd.ogc.wms_xml</Format> <!-- určuje výstupný formát odpovede na operáciu. -->
+        <Format>text/xml</Format> <!-- Formát zdrojového dokumentu čitateľný ako xml-->
+        <DCPType> <!-- definuje v akom formáte dostaneme požadovanú wms - Atribúty súvisiace s menným priestorom v schéme XML -->
           <HTTP><Get><OnlineResource xmlns:xlink="http://localhost:3045/wms?" xlink:type="simple" xlink:href="https://zbgisws.skgeodesy.sk/zbgis_antropogenne_prvky_wms_featureinfo/service.svc/get?"/></Get></HTTP>
+        <!-- xmlns:xlink - deklaruje menný priestor, ktorý je priradený k adrese URL kde sa nachádza wms -->
+        <!-- XLink sa používa na vytváranie hypertextových odkazov v dokumentoch XML -->
+        <!-- type = "simple" vytvára jednoduchý odkaz "HTML"-->
+        <!--xlink: href určuje adresu URL, na ktorú chcem odkazovať-->
         </DCPType>
       </GetCapabilities>
-      <GetMap>
-        <Format>image/png</Format>
-        <DCPType>
+      <GetMap> <!-- Načíta obrázok mapy pre určenú oblasť a obsah -->
+        <Format>image/png</Format> <!-- formát generovaného obrázku/mapy -->
+        <DCPType> 
           <HTTP><Get><OnlineResource xmlns:xlink="http://localhost:3045/wms?" xlink:type="simple" xlink:href="http://localhost:3045/wms?"/></Get></HTTP>
         </DCPType>
       </GetMap>
     </Request>
-    <Layer queryable="0">
-    <Title>budovy</Title>
-    <Name>budovy</Name>
-<CRS>EPSG:5514</CRS>
- <!-- alias 5514 -->
-<CRS>EPSG:102067</CRS>
+    <Layer queryable="0"> <!-- Layer - Zobrazuje dostupné súradnicové systémy a vrstvy. 
+             queryable="0" -Táto vrstva nie je dotazovateľná pretože, neobsahuje GetFeatureInfo a teda neposkytuje žiadne informácie-->
+    <Title>budovy</Title> <!-- nadpis -->
+    <Name>budovy</Name>  <!-- názov- možno požadovať použitím tohto názvu v parametri LAYERS v žiadosti GetMap -->
+<CRS>EPSG:5514</CRS> <!-- definovaný súr. systém EPSG kódom -->
+
+<CRS>EPSG:102067</CRS> <!-- alias 5514 - iné EPSG označenie toho istého sur. systému -->
 <EX_GeographicBoundingBox><westBoundLongitude>16.661701</westBoundLongitude><eastBoundLongitude>22.620033</eastBoundLongitude><southBoundLatitude>47.645856</southBoundLatitude><northBoundLatitude>49.714709</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="EPSG:5514" minx="-507668.121" miny="-1218115.828" maxx="-511572.982" maxy="-1222268.772"/>
+<BoundingBox CRS="EPSG:5514" minx="-507668.121" miny="-1218115.828" maxx="-511572.982" maxy="-1222268.772"/> <!-- Ohraničovací rám pre rozsah mapy. Hodnota je minx, miny, maxx, maxy v jednotkách SRS. -->
+      <!--EX_GeographicBoundingBox - Ohraničujúce súradnice maximálneho geografického rozsahu v desatinných stupňoch -->
       </Layer>
       <Layer queryable="0">
           <Title>cesty</Title>
@@ -45,10 +57,10 @@
         <Abstract><![CDATA[]]></Abstract>
 <CRS>EPSG:5514</CRS>
  <!-- alias 5514 -->
-<CRS>EPSG:102067</CRS>
+<CRS>EPSG:102067</CRS> 
 <EX_GeographicBoundingBox><westBoundLongitude>17.869550</westBoundLongitude><eastBoundLongitude>17.917076</eastBoundLongitude><southBoundLatitude>48.722371</southBoundLatitude><northBoundLatitude>48.762743</northBoundLatitude></EX_GeographicBoundingBox>
 <BoundingBox CRS="EPSG:5514" minx="-507668.121" miny="-1218115.828" maxx="-511572.982" maxy="-1222268.772"/>
-<MaxScaleDenominator>23623.511905</MaxScaleDenominator>
+<MaxScaleDenominator>23623.511905</MaxScaleDenominator>  <!-- maximálna mierka v ktorej sa vrstva zobrazí-->
       </Layer>
 
       <Layer queryable="0">
@@ -63,7 +75,7 @@
 <MaxScaleDenominator>23623.511905</MaxScaleDenominator>
       </Layer>
 
-               <Layer queryable="0">
+      <Layer queryable="0">
     <Title>kanalizacia</Title>
     <Name>kanalizacia</Name>
 <CRS>EPSG:5514</CRS>
